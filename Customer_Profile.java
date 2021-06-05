@@ -1,25 +1,26 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class Customer_Profile extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField fn;
+	private JTextField ln;
+	private JTextField em;
+	private JTextField pa;
+	private JTextField cn;
 	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField at;
 
 	/**
 	 * Launch the application.
@@ -49,6 +50,7 @@ public class Customer_Profile extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Customer Profile");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(259, 14, 131, 16);
 		contentPane.add(lblNewLabel);
 		
@@ -76,38 +78,32 @@ public class Customer_Profile extends JFrame {
 		lblNewLabel_6.setBounds(155, 326, 95, 16);
 		contentPane.add(lblNewLabel_6);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBounds(306, 71, 185, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		fn = new JTextField();
+		fn.setBounds(306, 71, 185, 26);
+		contentPane.add(fn);
+		fn.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setBounds(308, 116, 183, 26);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		ln = new JTextField();
+		ln.setBounds(308, 116, 183, 26);
+		contentPane.add(ln);
+		ln.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setBounds(310, 164, 180, 26);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		em = new JTextField();
+		em.setBounds(310, 164, 180, 26);
+		contentPane.add(em);
+		em.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setBounds(312, 218, 176, 26);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		pa = new JTextField();
+		pa.setBounds(312, 218, 176, 26);
+		contentPane.add(pa);
+		pa.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setBounds(314, 270, 176, 26);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		cn = new JTextField();
+		cn.setBounds(314, 270, 176, 26);
+		contentPane.add(cn);
+		cn.setColumns(10);
 		
 		textField_5 = new JTextField();
-		textField_5.setEditable(false);
 		textField_5.setBounds(315, 322, 173, 26);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
@@ -116,11 +112,10 @@ public class Customer_Profile extends JFrame {
 		lblNewLabel_7.setBounds(155, 378, 110, 16);
 		contentPane.add(lblNewLabel_7);
 		
-		textField_6 = new JTextField();
-		textField_6.setEditable(false);
-		textField_6.setBounds(314, 371, 175, 26);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
+		at = new JTextField();
+		at.setBounds(314, 371, 175, 26);
+		contentPane.add(at);
+		at.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Dashboard");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -134,22 +129,52 @@ public class Customer_Profile extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(119, 440, 117, 29);
+		btnNewButton.setBounds(432, 448, 117, 29);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Edit Profile");
+		JButton btnNewButton_1 = new JButton("Cancel");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				cust_edit ce = new cust_edit();
-				ce.setVisible(true);
-
-				setVisible(false);
-				dispose();
+				JOptionPane.showMessageDialog(null, "Details are not saved");
 			}
 		});
-		btnNewButton_1.setBounds(406, 436, 117, 29);
+		btnNewButton_1.setBounds(279, 448, 110, 29);
 		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Save");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String fname = null;
+	               String EmailId = null;
+	               String Password=null;
+	               
+	               fname = fn.getText();
+	               EmailId = em.getText();
+	               Password=pa.getText();
+	               
+	               if ((fname == null )|| (fname.equals("")))
+	               {
+	            	   JOptionPane.showMessageDialog(null, "First name should not be empty");
+	               }
+	               else if  ((EmailId == null )|| (EmailId.equals("")))
+	               {
+	            	   JOptionPane.showMessageDialog(null, "EmailId should not be empty");
+	               }
+	               else if  ((Password == null )|| (Password.equals(""))) 
+	               {
+	            	   JOptionPane.showMessageDialog(null, "Password should not be empty");
+	               }
+	               else {
+				 JOptionPane.showMessageDialog(null, "Customer Detils saved succesfully");
+	               }
+				//setVisible(false);
+				
+				
+			}
+		});
+		btnNewButton_2.setBounds(142, 448, 94, 29);
+		contentPane.add(btnNewButton_2);
 	}
-
 }
