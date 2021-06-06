@@ -171,6 +171,6 @@ public class Staff extends JFrame {
 		btnNewButton_2.setBounds(420, 452, 116, 35);
 		contentPane.add(btnNewButton_2);
 		
-		
+		// TEST COMMENT
 	}
 }
