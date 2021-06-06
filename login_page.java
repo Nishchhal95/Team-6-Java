@@ -4,11 +4,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
 public class login_page extends JFrame {
@@ -59,35 +64,16 @@ public class login_page extends JFrame {
 		JButton b1 = new JButton("Login");
 		b1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String userName = t1.getText();
+	            String password = text_pass_login.getText();
+           
+				if(Helper.isNullOrEmpty(userName) || Helper.isNullOrEmpty(password)) {
+		               JOptionPane.showMessageDialog(null, "Invalid Username or password");
+		               return;
+		               
+		        }
 				
-				String ss = null;
-	               String m_password = null;
-	               
-	              
-						ss = t1.getText();
-						m_password = text_pass_login.getText();
-						
-						if((ss == null) || (ss.equals(""))) {
-				               JOptionPane.showMessageDialog(null, "Invalid Username!");
-				               
-				             }
-				             else if(m_password == null) {
-				                    JOptionPane.showMessageDialog(null, "Password cannot be empty!");
-				                   
-				             }
-				             
-						else
-						{	
-					
-					        JOptionPane.showMessageDialog(null, "Welcome");
-					        Dashboard e1 = new Dashboard();
-							e1.setVisible(true);
-							setVisible(false);
-							dispose();
-						}   
-						
-						
-				
+				PasswordValidation(userName, password);
 			}
 		});
 		b1.setBounds(149, 127, 117, 29);
@@ -118,6 +104,55 @@ public class login_page extends JFrame {
 		JLabel lblNewLabel = new JLabel("New user? Register below:");
 		lblNewLabel.setBounds(136, 186, 172, 16);
 		contentPane.add(lblNewLabel);
+	}
+	
+	public void PasswordValidation(String userName, String password)
+	{
+		String userNameFromDB = null;
+		String userPass = null;
+		int userRole = -1;
+		// Do a query
+		try {
+            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
+            		JavaDatabaseConnection.userName, JavaDatabaseConnection.password);
+            String query = "SELECT * from " + JavaDatabaseConnection.userAccountTable + " where userName = " + "'" + userName + "'";
+            Statement sta = connection.createStatement();
+            ResultSet rs = sta.executeQuery(query);
+            
+            while (rs.next()) {
+                userNameFromDB = rs.getString("userName");
+                userPass = rs.getString("userPassword");
+                userRole = rs.getInt("userRole");
+              }
+            
+            connection.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+		// Bring in password to match
+		if(userPass.equals(password)) {
+	        JOptionPane.showMessageDialog(null, "Welcome " + userName);
+	        Dashboard e1 = new Dashboard(userRole == 2 ? true : false);
+			e1.setVisible(true);
+			setVisible(false);
+			dispose(); 
+		}
+		
+		else {
+			JOptionPane.showMessageDialog(null, "Password Mismatch!");
+            return;
+		}
+	}
+	
+	public static class Helper
+	{
+		public static boolean isNullOrEmpty(String s)
+		{
+			if(s == null || s.isEmpty()) {
+				return true;
+			}
+			return false;
+		}
 	}
 
 }
