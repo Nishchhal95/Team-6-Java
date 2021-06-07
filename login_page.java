@@ -136,7 +136,8 @@ public class login_page extends JFrame {
 		if(userPass.equals(password)) {
 	        JOptionPane.showMessageDialog(null, "Welcome " + userName);
 	        UserID = userId;
-	        Dashboard e1 = new Dashboard(userRole == 2 ? true : false);
+	        Dashboard.isAdmin = userRole == 2 ? true : false;
+	        Dashboard e1 = new Dashboard();
 			e1.setVisible(true);
 			setVisible(false);
 			dispose(); 
