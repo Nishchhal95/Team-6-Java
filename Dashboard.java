@@ -100,6 +100,19 @@ public class Dashboard extends JFrame {
 		b7.setBounds(439, 115, 117, 29);
 		contentPane.add(b7);
 		
+		JButton btnNewButton = new JButton("Profile");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Customer_Profile customerProfile = new Customer_Profile();
+				customerProfile.setVisible(true);
+			
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(10, 10, 85, 21);
+		contentPane.add(btnNewButton);
+		
 //		JButton b9 = new JButton("Country");
 //		b9.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
