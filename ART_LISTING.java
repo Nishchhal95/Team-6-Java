@@ -79,7 +79,6 @@ public class ART_LISTING extends JFrame {
 		            		+ " LIMIT 10";
 		            Statement sta = connection.createStatement();
 		            ResultSet rs = sta.executeQuery(query);
-		            System.out.println(rs.ne);
 		            
 		            while (rs.next()) {
 		            	AgmsArt agmsArt = new AgmsArt();
