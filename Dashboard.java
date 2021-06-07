@@ -91,7 +91,7 @@ public class Dashboard extends JFrame {
 		b7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Artists a = new Artists();
+				ArtistListing a = new ArtistListing();
 				a.setVisible(true);
 				setVisible(false);
 				dispose();

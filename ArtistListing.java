@@ -46,6 +46,18 @@ public class ArtistListing extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JButton btnNewButton = new JButton("Back");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Dashboard d = new Dashboard();
+				d.setVisible(true);
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(10, 10, 85, 21);
+		contentPane.add(btnNewButton);
+		
 		ArrayList<AgmsArtist> agmsArtists = new ArrayList<AgmsArtist>();
 		try {
             Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 

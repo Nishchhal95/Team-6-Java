@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ArtistInfo extends JFrame {
 
@@ -135,6 +138,18 @@ public class ArtistInfo extends JFrame {
 				JLabel lblArtstyles = new JLabel("Artstyles");
 				lblArtstyles.setBounds(33, 267, 107, 31);
 				contentPane.add(lblArtstyles);
+				
+				JButton btnNewButton = new JButton("Back");
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ArtistListing a = new ArtistListing();
+						a.setVisible(true);
+						setVisible(false);
+						dispose();
+					}
+				});
+				btnNewButton.setBounds(10, 458, 85, 21);
+				contentPane.add(btnNewButton);
 				
 	}
 	
