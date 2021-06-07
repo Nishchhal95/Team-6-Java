@@ -117,6 +117,7 @@ public class ArtInfo extends JFrame {
 		});
 		btnNewButton.setBounds(281, 499, 150, 20);
 		buyNowButton.add(btnNewButton);
+		btnNewButton.setEnabled(agmsArtFull.artStatus.equals("sold") ? false : true);
 		
 		JLabel artisticStyle = new JLabel("Artistic Style: " + agmsArtFull.artisticStyleName);
 		artisticStyle.setBounds(500, 330, 220, 25);
