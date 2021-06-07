@@ -109,9 +109,9 @@ public class ART_LISTING extends JFrame {
 					viewInfoButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							
-							Event_info.eventID = agmsArts.get(x).artId;
-							Event_info eventInfo = new Event_info();
-							eventInfo.setVisible(true);
+							ArtInfo.artID = agmsArts.get(x).artId;
+							ArtInfo artInfo = new ArtInfo();
+							artInfo.setVisible(true);
 
 							setVisible(false);
 							dispose();
@@ -120,11 +120,11 @@ public class ART_LISTING extends JFrame {
 					viewInfoButton.setBounds(300, 60 + (i * rowHeight), 120, 25);
 					contentPane.add(viewInfoButton);
 					
-					JButton bookButton = new JButton("Book Ticket");
+					JButton bookButton = new JButton("Buy");
 					bookButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							
-							JOptionPane.showMessageDialog(null,"Ticket Booked");
+							JOptionPane.showMessageDialog(null,"Art Purchased.");
 							// TODO: DB call to add entry in Event Registrations
 //							try {
 //					            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
@@ -143,7 +143,7 @@ public class ART_LISTING extends JFrame {
 //								}
 						}
 					});
-					bookButton.setBounds(450, 60 + (i * rowHeight), 120, 25);
+					bookButton.setBounds(450, 60 + (i * rowHeight), 80, 25);
 					contentPane.add(bookButton);
 				}
 	}
