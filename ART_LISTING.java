@@ -74,7 +74,7 @@ public class ART_LISTING extends JFrame {
 		            		+ JavaDatabaseConnection.artTable + ".statusID = " 
 		            		+ JavaDatabaseConnection.StatusTypeTable +".statusID "
 		            		+ "inner join " + JavaDatabaseConnection.artisticStyleTable + " ON "
-		            		+ JavaDatabaseConnection.artisticStyleTable + ".artisticStyleID = " 
+		            		+ JavaDatabaseConnection.artTable + ".artisticStyleID = " 
 		            		+ JavaDatabaseConnection.artisticStyleTable + ".artisticStyleID" 
 		            		+ " LIMIT 10";
 		            Statement sta = connection.createStatement();
