@@ -4,13 +4,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class Event_info extends JFrame {
 
+	public static int eventID = -1;
 	private JPanel contentPane;
 
 	/**
@@ -34,144 +44,111 @@ public class Event_info extends JFrame {
 	 */
 	public Event_info() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 550, 450);
+		setBounds(200, 200, 612, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Spotlight Photography");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				spotlight sp = new spotlight();
-				sp.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnNewButton.setBounds(54, 70, 175, 29);
-		contentPane.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Sunshine Photography");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				sunshine ss = new sunshine();
-				ss.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnNewButton_1.setBounds(54, 126, 175, 29);
-		contentPane.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Maple leaf Painting");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				maple m = new maple();
-				m.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnNewButton_2.setBounds(54, 181, 175, 29);
-		contentPane.add(btnNewButton_2);
-		
-		JButton btnNewButton_3 = new JButton("New Orchard Painting");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				orchard o = new orchard();
-				o.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-			
-		});
-		btnNewButton_3.setBounds(54, 234, 175, 29);
-		contentPane.add(btnNewButton_3);
-		
-		JButton btnNewButton_4 = new JButton("Rhien Art Gallery");
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				rhien r = new rhien();
-				r.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnNewButton_4.setBounds(304, 70, 166, 29);
-		contentPane.add(btnNewButton_4);
-		
-		JButton btnNewButton_5 = new JButton("Luisen Platz Art Gallery");
-		btnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				lp l = new lp();
-				l.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnNewButton_5.setBounds(289, 126, 181, 29);
-		contentPane.add(btnNewButton_5);
-		
-		JButton btnNewButton_6 = new JButton("Rocking Stone Art Gallery");
-		btnNewButton_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				rocking r = new rocking();
-				r.setVisible(true);
-
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnNewButton_6.setBounds(278, 181, 192, 29);
-		contentPane.add(btnNewButton_6);
-		
-		JButton btnNewButton_7 = new JButton("Metallica Art Gallery");
-		btnNewButton_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				metal m1 = new metal();
-				m1.setVisible(true);
-
-				setVisible(false);
-				dispose();
-				
-			}
-		});
-		btnNewButton_7.setBounds(312, 234, 158, 29);
-		contentPane.add(btnNewButton_7);
-		
-		JButton btnNewButton_8 = new JButton("Dashboard");
+		JButton btnNewButton_8 = new JButton("Back");
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Dashboard dd = new Dashboard();
-				dd.setVisible(true);
+				Events_list eventListing = new Events_list();
+				eventListing.setVisible(true);
 
 				setVisible(false);
 				dispose();
 			}
 			
 		});
-		btnNewButton_8.setBounds(214, 311, 117, 29);
+		btnNewButton_8.setBounds(217, 374, 117, 29);
 		contentPane.add(btnNewButton_8);
 		
-		JLabel lblNewLabel = new JLabel("Event Information");
-		lblNewLabel.setBounds(214, 22, 117, 16);
-		contentPane.add(lblNewLabel);
+		//TODO: Fetch Data of the current Event
+		if(eventID == -1) {
+			return;
+		}
+		AgmsEventFull agmsEventFull = new AgmsEventFull();
+		try {
+            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
+            		JavaDatabaseConnection.userName, JavaDatabaseConnection.password);
+            String query = "SELECT * from " + JavaDatabaseConnection.eventTable + " where eventID = " + "'" + eventID + "'";
+            Statement sta = connection.createStatement();
+            ResultSet rs = sta.executeQuery(query);
+            
+            while (rs.next()) {
+            	agmsEventFull.eventTitle = rs.getString("eventName");
+            	agmsEventFull.eventDesc = rs.getString("eventDescription");
+            	agmsEventFull.eventStartDate = rs.getString("eventStartDate");
+            	agmsEventFull.eventEndDate = rs.getString("eventEndDate");
+            	agmsEventFull.eventFee = rs.getInt("eventFee");
+              }
+            
+            connection.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+		
+		JLabel eventTitle = new JLabel(agmsEventFull.eventTitle);
+		eventTitle.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		eventTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		eventTitle.setBounds(139, 21, 300, 40);
+		contentPane.add(eventTitle);
+		
+		JLabel eventDescription = new JLabel(agmsEventFull.eventDesc);
+		eventDescription.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		eventDescription.setVerticalAlignment(SwingConstants.TOP);
+		eventDescription.setHorizontalAlignment(SwingConstants.LEFT);
+		eventDescription.setBounds(61, 75, 472, 83);
+		contentPane.add(eventDescription);
+		
+		JLabel eventStartDate = new JLabel("From : " + agmsEventFull.eventStartDate);
+		eventStartDate.setBounds(60, 200, 120, 20);
+		contentPane.add(eventStartDate);
+		
+		JLabel eventEndDate = new JLabel("To : " + agmsEventFull.eventEndDate);
+		eventEndDate.setBounds(400, 200, 120, 20);
+		contentPane.add(eventEndDate);
+		
+		JLabel eventFee = new JLabel("Entry Fee : " + agmsEventFull.eventFee);
+		eventFee.setBounds(217, 235, 120, 20);
+		contentPane.add(eventFee);
+		
+		JButton bookButton = new JButton("Book");
+		bookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// TODO: DB call to add entry in Event Registrations
+				try {
+		            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
+		            		JavaDatabaseConnection.userName, JavaDatabaseConnection.password);
+		            String query = "INSERT INTO eventregistrartion (eventID, userID, amount) values ('" + eventID + "','" + login_page.UserID + "','" + agmsEventFull.eventFee + "')";
+					Statement sta = connection.createStatement();
+					int x = sta.executeUpdate(query);
+					if (x == 0) {
+					JOptionPane.showMessageDialog(null, "This is alredy exist");
+					} else {
+					JOptionPane.showMessageDialog(null,"Ticket Booked");
+					}
+					connection.close();
+					} catch (Exception exception) {
+					exception.printStackTrace();
+					}
+			}
+		});
+		bookButton.setBounds(231, 301, 85, 21);
+		contentPane.add(bookButton);
+	}
+	
+	public class AgmsEventFull
+	{
+		public int eventID;
+		public String eventTitle;
+		public String eventDesc;
+		public String eventStartDate;
+		public String eventEndDate;
+		public int eventFee;
 	}
 
 }

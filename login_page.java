@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 
 public class login_page extends JFrame {
 
+	public static int UserID = -1;
 	private JPanel contentPane;
 	private JTextField t1;
 	private JTextField text_pass_login;
@@ -111,6 +112,7 @@ public class login_page extends JFrame {
 		String userNameFromDB = null;
 		String userPass = null;
 		int userRole = -1;
+		int userId = -1;
 		// Do a query
 		try {
             Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
@@ -120,6 +122,7 @@ public class login_page extends JFrame {
             ResultSet rs = sta.executeQuery(query);
             
             while (rs.next()) {
+            	userId = rs.getInt("userAccountID");
                 userNameFromDB = rs.getString("userName");
                 userPass = rs.getString("userPassword");
                 userRole = rs.getInt("userRole");
@@ -132,6 +135,7 @@ public class login_page extends JFrame {
 		// Bring in password to match
 		if(userPass.equals(password)) {
 	        JOptionPane.showMessageDialog(null, "Welcome " + userName);
+	        UserID = userId;
 	        Dashboard e1 = new Dashboard(userRole == 2 ? true : false);
 			e1.setVisible(true);
 			setVisible(false);
