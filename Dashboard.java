@@ -72,7 +72,7 @@ public class Dashboard extends JFrame {
 		b8.setBounds(244, 115, 117, 29);
 		contentPane.add(b8);
 		
-		if(isAdmin) {
+		//if(isAdmin) {
 		JButton b10 = new JButton("Event Details");
 		b10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,9 +83,9 @@ public class Dashboard extends JFrame {
 				dispose();
 			}
 		});
-		b10.setBounds(119, 359, 117, 29);
+		b10.setBounds(61, 363, 117, 29);
 		contentPane.add(b10);
-		}
+		//}
 		
 		JButton b7 = new JButton("Artists");
 		b7.addActionListener(new ActionListener() {
@@ -113,23 +113,19 @@ public class Dashboard extends JFrame {
 		btnNewButton.setBounds(10, 10, 85, 21);
 		contentPane.add(btnNewButton);
 		
-//		JButton b9 = new JButton("Country");
-//		b9.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				Country Cou = new Country();
-//				Cou.setVisible(true);
-//				setVisible(false);
-//				dispose();
-//			}
-//		});
-//		b9.setBounds(405, 233, 117, 29);
-//		contentPane.add(b9);
-		
-		if(isAdmin) {
+		//if(isAdmin) {
 		JButton b11 = new JButton("Staff Details");
-		b11.setBounds(405, 359, 117, 29);
+		b11.setBounds(439, 363, 117, 29);
 		contentPane.add(b11);
-		}
+		
+		JButton btnCreateEvent = new JButton("Create Event");
+		btnCreateEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnCreateEvent.setBounds(244, 363, 117, 29);
+		contentPane.add(btnCreateEvent);
+		//}
 	}
 }
