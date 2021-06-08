@@ -72,7 +72,7 @@ public class Dashboard extends JFrame {
 		b8.setBounds(244, 115, 117, 29);
 		contentPane.add(b8);
 		
-		//if(isAdmin) {
+		if(isAdmin) {
 		JButton b10 = new JButton("Event Details");
 		b10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,7 +85,7 @@ public class Dashboard extends JFrame {
 		});
 		b10.setBounds(61, 363, 117, 29);
 		contentPane.add(b10);
-		//}
+		}
 		
 		JButton b7 = new JButton("Artists");
 		b7.addActionListener(new ActionListener() {
@@ -113,7 +113,7 @@ public class Dashboard extends JFrame {
 		btnNewButton.setBounds(10, 10, 85, 21);
 		contentPane.add(btnNewButton);
 		
-		//if(isAdmin) {
+		if(isAdmin) {
 		JButton b11 = new JButton("Staff Details");
 		b11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -139,6 +139,6 @@ public class Dashboard extends JFrame {
 		});
 		btnCreateEvent.setBounds(244, 363, 117, 29);
 		contentPane.add(btnCreateEvent);
-		//}
+		}
 	}
 }
