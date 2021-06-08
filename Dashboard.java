@@ -115,13 +115,26 @@ public class Dashboard extends JFrame {
 		
 		//if(isAdmin) {
 		JButton b11 = new JButton("Staff Details");
+		b11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StaffDetails staffDetails = new StaffDetails();
+				staffDetails.setVisible(true);
+			
+				setVisible(false);
+				dispose();
+			}
+		});
 		b11.setBounds(439, 363, 117, 29);
 		contentPane.add(b11);
 		
 		JButton btnCreateEvent = new JButton("Create Event");
 		btnCreateEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				EventCreation eventCreation = new EventCreation();
+				eventCreation.setVisible(true);
+			
+				setVisible(false);
+				dispose();
 			}
 		});
 		btnCreateEvent.setBounds(244, 363, 117, 29);
