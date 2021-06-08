@@ -77,8 +77,8 @@ public class Dashboard extends JFrame {
 		b10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Customer_Profile ag = new Customer_Profile();
-				ag.setVisible(true);
+				EventDetails ed = new EventDetails();
+				ed.setVisible(true);
 				setVisible(false);
 				dispose();
 			}

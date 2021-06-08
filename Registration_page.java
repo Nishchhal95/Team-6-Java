@@ -4,9 +4,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JMenuBar;
@@ -17,17 +19,27 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.awt.Choice;
 import java.awt.List;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSpinner;
 
 public class Registration_page extends JFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField userNameField;
+	private JTextField lastNameField;
+	private JTextField emailIDField;
 	private JTextField passwordField;
+	private JTextField firstNameField;
+	private JTextField addressField;
+	private JTextField dobField;
 
 	/**
 	 * Launch the application.
@@ -51,60 +63,147 @@ public class Registration_page extends JFrame {
 	public Registration_page() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 300, 650, 500);
-		
-		JPopupMenu popupMenu = new JPopupMenu();
-		addPopup(getContentPane(), popupMenu);
 		getContentPane().setLayout(null);
 		
-		JLabel reg_name = new JLabel("First Name");
+		ArrayList<AgmsCountry> agmsCountries = new ArrayList<AgmsCountry>();
+		ArrayList<AgmsArtisticStyle> agmsArtisticStyles = new ArrayList<AgmsArtisticStyle>();
+		
+		//TODO: Fetch Data of the current Event
+		try {
+            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
+            		JavaDatabaseConnection.userName, JavaDatabaseConnection.password);
+            String query = "SELECT * from " + JavaDatabaseConnection.countryTable;
+            Statement sta = connection.createStatement();
+            ResultSet rs = sta.executeQuery(query);
+            
+            while (rs.next()) {
+            	AgmsCountry agmsCountry = new AgmsCountry();
+            	agmsCountry.countryID = rs.getInt("countryID");
+            	agmsCountry.countryName = rs.getString("countryName");
+            	agmsCountries.add(agmsCountry);
+              }
+            
+            connection.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+		
+		try {
+            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
+            		JavaDatabaseConnection.userName, JavaDatabaseConnection.password);
+            String query = "SELECT * from " + JavaDatabaseConnection.artisticStyleTable;
+            Statement sta = connection.createStatement();
+            ResultSet rs = sta.executeQuery(query);
+            
+            while (rs.next()) {
+            	AgmsArtisticStyle agmsArtisticStyle = new AgmsArtisticStyle();
+            	agmsArtisticStyle.artisticStyleID = rs.getInt("artisticStyleID");
+            	agmsArtisticStyle.artisticStyleName = rs.getString("artisticStyleName");
+            	agmsArtisticStyles.add(agmsArtisticStyle);
+              }
+            
+            connection.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+		
+		JLabel reg_name = new JLabel("UserName");
 		reg_name.setBounds(94, 69, 63, 27);
 		getContentPane().add(reg_name);
 		
 		JLabel regi_lname = new JLabel("Last name");
-		regi_lname.setBounds(94, 118, 63, 15);
+		regi_lname.setBounds(94, 191, 63, 15);
 		getContentPane().add(regi_lname);
 		
 		JLabel email = new JLabel("Email Id");
-		email.setBounds(94, 161, 57, 15);
+		email.setBounds(94, 234, 57, 15);
 		getContentPane().add(email);
 		
 		JLabel pass_re = new JLabel("Password");
-		pass_re.setBounds(94, 203, 57, 15);
+		pass_re.setBounds(94, 112, 57, 15);
 		getContentPane().add(pass_re);
 		
 		JLabel lblNewLabel_5 = new JLabel("Preference");
-		lblNewLabel_5.setBounds(94, 287, 73, 15);
+		lblNewLabel_5.setBounds(94, 372, 73, 15);
 		getContentPane().add(lblNewLabel_5);
 		
 		JLabel header2 = new JLabel("Registration Profile");
 		header2.setBounds(262, 25, 171, 15);
 		getContentPane().add(header2);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Pop Art");
-		chckbxNewCheckBox.setBounds(179, 350, 110, 18);
-		getContentPane().add(chckbxNewCheckBox);
+		userNameField = new JTextField();
+		userNameField.setBounds(179, 69, 343, 27);
+		getContentPane().add(userNameField);
+		userNameField.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Modern");
-		chckbxNewCheckBox_1.setBounds(301, 350, 110, 18);
-		getContentPane().add(chckbxNewCheckBox_1);
+		lastNameField = new JTextField();
+		lastNameField.setBounds(179, 185, 343, 27);
+		getContentPane().add(lastNameField);
+		lastNameField.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Fantasy");
-		chckbxNewCheckBox_2.setBounds(423, 350, 110, 18);
-		getContentPane().add(chckbxNewCheckBox_2);
+		emailIDField = new JTextField();
+		emailIDField.setBounds(179, 228, 343, 27);
+		getContentPane().add(emailIDField);
+		emailIDField.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Abstract");
-		chckbxNewCheckBox_3.setBounds(179, 320, 110, 18);
-		getContentPane().add(chckbxNewCheckBox_3);
+		JLabel lblNewLabel_4 = new JLabel("Country");
+		lblNewLabel_4.setBounds(94, 345, 57, 15);
+		getContentPane().add(lblNewLabel_4);
 		
-		JCheckBox chckbxNewCheckBox_4 = new JCheckBox("Contemporary");
-		chckbxNewCheckBox_4.setBounds(301, 320, 110, 18);
-		getContentPane().add(chckbxNewCheckBox_4);
+		passwordField = new JTextField();
+		passwordField.setBounds(179, 106, 343, 27);
+		getContentPane().add(passwordField);
+		passwordField.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox_5 = new JCheckBox("Graffiti");
-		chckbxNewCheckBox_5.setBounds(423, 320, 110, 18);
-		getContentPane().add(chckbxNewCheckBox_5);
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(179, 338, 280, 22);
+		String[] countriesArray = new String[agmsCountries.size()];
+		for(int i = 0; i < agmsCountries.size(); i++) {
+			countriesArray[i] = agmsCountries.get(i).countryName;
+		}
+		spinner.setModel(new SpinnerListModel(countriesArray));
+		spinner.setValue(countriesArray[agmsCountries.size() - 1]);
+		getContentPane().add(spinner);
 		
-		JButton btnNewButton = new JButton("Complete Registration");
+		JSpinner spinner_1 = new JSpinner();
+		spinner_1.setBounds(179, 370, 280, 22);
+		String[] artisticStyleArray = new String[agmsArtisticStyles.size()];
+		for(int i = 0; i < agmsArtisticStyles.size(); i++) {
+			artisticStyleArray[i] = agmsArtisticStyles.get(i).artisticStyleName;
+		}
+		spinner_1.setModel(new SpinnerListModel(artisticStyleArray));
+		spinner_1.setValue(artisticStyleArray[agmsArtisticStyles.size() - 1]);
+		getContentPane().add(spinner_1);
+		
+		JLabel reg_name_1 = new JLabel("First Name");
+		reg_name_1.setBounds(94, 148, 63, 27);
+		getContentPane().add(reg_name_1);
+		
+		firstNameField = new JTextField();
+		firstNameField.setColumns(10);
+		firstNameField.setBounds(179, 148, 343, 27);
+		getContentPane().add(firstNameField);
+		
+		JLabel lblAddress = new JLabel("Address");
+		lblAddress.setBounds(94, 306, 57, 15);
+		getContentPane().add(lblAddress);
+		
+		addressField = new JTextField();
+		addressField.setColumns(10);
+		addressField.setBounds(179, 300, 343, 27);
+		getContentPane().add(addressField);
+		
+		dobField = new JTextField();
+		dobField.setColumns(10);
+		dobField.setBounds(179, 259, 343, 27);
+		getContentPane().add(dobField);
+		
+		JLabel lblDob = new JLabel("DOB");
+		lblDob.setBounds(94, 265, 57, 15);
+		getContentPane().add(lblDob);
+		
+		
+		JButton btnNewButton = new JButton("Register");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -112,7 +211,7 @@ public class Registration_page extends JFrame {
 	            String m_password = null;
 	               
 	              
-						ss = textField.getText();
+						ss = userNameField.getText();
 						m_password = passwordField.getText();
 						
 						if((ss == null) || (ss.equals(""))) {
@@ -126,9 +225,26 @@ public class Registration_page extends JFrame {
 				             
 						else
 						{	
-					
-					        JOptionPane.showMessageDialog(null, "Changes Saved!");
-					        Dashboard e1 = new Dashboard();
+							try {
+					            Connection connection = DriverManager.getConnection(JavaDatabaseConnection.dbURL + JavaDatabaseConnection.dbName, 
+					            		JavaDatabaseConnection.userName, JavaDatabaseConnection.password);
+					            CallableStatement sta = connection.prepareCall("{call addUserAccount(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+					            sta.setString(1, userNameField.getText().trim());
+					            sta.setString(2, passwordField.getText().trim());
+					            sta.setString(3, firstNameField.getText().trim());
+					            sta.setString(4, lastNameField.getText().trim());
+					            sta.setString(5, addressField.getText().trim());
+					            sta.setString(6, spinner.getValue().toString());
+					            sta.setString(7, emailIDField.getText().trim());
+					            sta.setString(8, dobField.getText().trim());
+					            sta.setString(9, spinner_1.getValue().toString());
+					            sta.execute();
+					            connection.close();
+					        } catch (Exception exception) {
+					            exception.printStackTrace();
+					        }
+					        JOptionPane.showMessageDialog(null, "Profile Created");
+					        login_page e1 = new login_page();
 							e1.setVisible(true);
 							setVisible(false);
 							dispose();
@@ -136,58 +252,20 @@ public class Registration_page extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(234, 396, 177, 27);
+		btnNewButton.setBounds(242, 426, 120, 27);
 		getContentPane().add(btnNewButton);
-		
-		textField = new JTextField();
-		textField.setBounds(179, 69, 343, 27);
-		getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(179, 112, 343, 27);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(179, 155, 343, 27);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		
-		JPopupMenu popupMenu_1 = new JPopupMenu();
-		popupMenu_1.setBounds(179, 236, 200, 50);
-		getContentPane().add(popupMenu_1);
-		
-		JComboBox location_reg = new JComboBox();
-		location_reg.setMaximumRowCount(100);
-		location_reg.setModel(new DefaultComboBoxModel(new String[] {"Gabon", "Gambia, The", "Georgia", "Germany", "Ghana", "Grand Duchy of Tuscany, The*", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana"}));
-		location_reg.setBounds(179, 241, 217, 25);
-		getContentPane().add(location_reg);
-		
-		JLabel lblNewLabel_4 = new JLabel("Country");
-		lblNewLabel_4.setBounds(94, 246, 57, 15);
-		getContentPane().add(lblNewLabel_4);
-		
-		passwordField = new JTextField();
-		passwordField.setBounds(179, 197, 343, 27);
-		getContentPane().add(passwordField);
-		passwordField.setColumns(10);
 	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
+	
+	public class AgmsCountry
+	{
+		public int countryID;
+		public String countryName;
 	}
+	
+	public class AgmsArtisticStyle
+	{
+		public int artisticStyleID;
+		public String artisticStyleName;
+	}
+
 }
